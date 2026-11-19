@@ -115,12 +115,12 @@ if(seq.length>=7)return win('Möhtəşəm yaddaş!','Yenidən',simon);
 seq.push(rnd(4));play()}});
 play()}
 /* 4. Puzzle */
-const PICS=[['🐘','#bfe3ff'],['🚂','#ffe0a3'],['🐠','#b8f0d8'],['🚀','#d9cdfc'],['🦒','#ffd1d9'],['🏠','#fff2a8']];
-function puzzle(lv){token++;const s=[2,2,3][lv],[e,bg]=PICS[rnd(PICS.length)],c=document.createElement('canvas');c.width=c.height=360;
+let PZ;const PICS=[['🐘','#bfe3ff'],['🚂','#ffe0a3'],['🐠','#b8f0d8'],['🚀','#d9cdfc'],['🦒','#ffd1d9'],['🏠','#fff2a8'],['🐶','#ffe3c9'],['🐱','#d6f0ff'],['🦁','#fff0b3'],['🚗','#ffd6d6'],['🍎','#d8f5c8'],['🐙','#e8d9ff'],['🦋','#c9ecff'],['🐧','#d9e6ff'],['🐢','#cdf2d4'],['🐸','#e3f7b8']];
+function puzzle(lv){token++;const s=[2,2,2,2,3,3,3,3,4,4][lv],[e,bg]=(PZ=lv==0||!PZ?sh([...PICS]):PZ)[lv],c=document.createElement('canvas');c.width=c.height=360;
 const x=c.getContext('2d');x.fillStyle=bg;x.fillRect(0,0,360,360);x.font='250px sans-serif';x.textAlign='center';x.textBaseline='middle';x.fillText(e,180,195);
 const url=c.toDataURL();let order=Array.from({length:s*s},(_,i)=>i);
-do{for(let k=[1,2,4][lv];k--;){const a=rnd(s*s),b=rnd(s*s);[order[a],order[b]]=[order[b],order[a]]}}while(order.every((v,i)=>v==i));
-st.innerHTML=head('Səviyyə '+(lv+1)+'/3')+`<p class="hint">Parçanı sürüşdür və ya iki parçaya toxun</p><img class="ref" src="${url}" alt="nümunə"><div class="pz" style="grid-template-columns:repeat(${s},1fr)"></div>`;
+do{for(let k=[1,1,2,2,2,3,4,5,6,9][lv];k--;){const a=rnd(s*s),b=rnd(s*s);[order[a],order[b]]=[order[b],order[a]]}}while(order.every((v,i)=>v==i));
+st.innerHTML=head('Səviyyə '+(lv+1)+'/10')+`<p class="hint">Parçanı sürüşdür və ya iki parçaya toxun</p><img class="ref" src="${url}" alt="nümunə"><div class="pz" style="grid-template-columns:repeat(${s},1fr)"></div>`;
 const g=$('.pz');let sel=null;
 const swap=(a,b)=>{[order[a],order[b]]=[order[b],order[a]];sel=null;draw();g.__fin()};
 const down=(ev,d,i)=>{ev.preventDefault();const x0=ev.clientX,y0=ev.clientY;let drag=false;
@@ -133,7 +133,7 @@ const draw=()=>{g.innerHTML='';order.forEach((p,i)=>{const d=document.createElem
 d.style.backgroundImage=`url(${url})`;d.style.backgroundSize=s*100+'% '+s*100+'%';d.style.backgroundPosition=px*100/(s-1)+'% '+py*100/(s-1)+'%';
 d.className=(sel===i?'sel ':'')+(p===i?'right':'');
 d.dataset.i=i;d.onpointerdown=e=>down(e,d,i);
-g.__fin=()=>{if(order.every((v,j)=>v==j)){star();star();tone(784,.4);g.style.pointerEvents='none';g.style.gap='0';g.querySelectorAll('div').forEach(d=>{d.className='';d.style.borderRadius='0';d.style.boxShadow='none'});$('.hint').textContent='Afərin! 🎉';setTimeout(()=>lv<2?win('Afərin! Puzzle tamamdır','Növbəti',()=>puzzle(lv+1)):win('Əla! Hamısını yığdın','Yenidən',()=>puzzle(0)),3000)}};
+g.__fin=()=>{if(order.every((v,j)=>v==j)){star();star();tone(784,.4);g.style.pointerEvents='none';g.style.gap='0';g.querySelectorAll('div').forEach(d=>{d.className='';d.style.borderRadius='0';d.style.boxShadow='none'});$('.hint').textContent='Afərin! 🎉';setTimeout(()=>lv<9?win('Afərin! Puzzle tamamdır','Növbəti',()=>puzzle(lv+1)):win('Əla! Hamısını yığdın','Yenidən',()=>puzzle(0)),3000)}};
 g.append(d)})};draw()}
 menu();
 </script>
